@@ -39,7 +39,7 @@ public class AutoFillAspect {
         OperationType operationType = autoFill.value();
 
         Object[] args = joinPoint.getArgs();
-        if (args == null && args.length == 0) {
+        if (args == null || args.length == 0) {
             return;
         }
 
