@@ -11,3 +11,7 @@ sky:
     access-key-secret: Ociu2oAVv5FyAHpjL3LMNPiuhWqeDt
     access-key-id: LTAI5tPQSXovXyuYMLQcenb7
     bucket-name: spring-boot-web-study
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
