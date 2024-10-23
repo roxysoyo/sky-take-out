@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,18 +26,16 @@ public class OrderTask {
      */
     @Scheduled(cron = "0 * * * * ?") // 每分钟执行一次
     public void processTimeoutOrder() {
-        log.info("开始进行支付超时订单处理:{}", LocalDateTime.now());
+        log.info("处理支付超时订单：{}", new Date());
         LocalDateTime time = LocalDateTime.now().plusMinutes(-15);
-
-        // select * from orders where status = ? and order_time < (当前时间 - 15分钟)
         List<Orders> ordersList = orderMapper.getByStatusAndOrdertimeLT(Orders.PENDING_PAYMENT, time);
         if (ordersList != null && !ordersList.isEmpty()) {
-            for (Orders order : ordersList) {
+            ordersList.forEach(order -> {
                 order.setStatus(Orders.CANCELLED);
-                order.setCancelReason("订单超时，自动取消");
+                order.setCancelReason("支付超时，自动取消");
                 order.setCancelTime(LocalDateTime.now());
                 orderMapper.update(order);
-            }
+            });
         }
 
     }
