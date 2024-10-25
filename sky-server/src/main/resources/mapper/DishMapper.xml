@@ -41,7 +41,6 @@
         where id = #{id}
     </update>
 
-
     <select id="list" parameterType="Dish" resultType="com.sky.entity.Dish">
         select * from dish
         <where>
@@ -56,5 +55,17 @@
             </if>
         </where>
         order by create_time desc
+    </select>
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from dish
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
     </select>
 </mapper>
